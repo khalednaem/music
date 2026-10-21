@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080608">
+<title>Khaleed | A World of Feelings</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Orbitron:wght@400;600;800&display=swap');
+
+:root {
+  --red: #ff1744;
+  --red2: #9d001e;
+  --bg: #080608;
+  --white: #fff5f6;
+  --muted: #a69ba0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'Cairo', sans-serif;
+  cursor: default;
+}
+
+button, input {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+#particles {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.ambient {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(125,0,25,.19), transparent 48%),
+    radial-gradient(ellipse at 10% 90%, rgba(255,0,55,.08), transparent 35%),
+    linear-gradient(180deg, #080608 0%, #10070b 55%, #050405 100%);
+}
+
+.scanlines {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: .12;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 3px,
+    rgba(255,255,255,.035) 4px
+  );
+}
+
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,.68) 100%);
+}
+
+main {
+  position: relative;
+  z-index: 4;
+}
+
+.topbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 6%;
+}
+
+.brand {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: 4px;
+}
+
+.brand span {
+  color: var(--red);
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #bcb0b5;
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  background: var(--red);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--red);
+  animation: blink 1.6s infinite;
+}
+
+@keyframes blink {
+  50% { opacity: .25; }
+}
+
+.hero {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 22px 50px;
+  text-align: center;
+  position: relative;
+}
+
+.eyebrow {
+  color: #d2a7b0;
+  font-size: 11px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  margin-bottom: 26px;
+  animation: fadeUp 1.2s both;
+}
+
+.eclipse-wrap {
+  position: relative;
+  width: min(62vw, 270px);
+  aspect-ratio: 1;
+  margin-bottom: 35px;
+  display: grid;
+  place-items: center;
+  animation: float 6s ease-in-out infinite;
+}
+
+.eclipse {
+  width: 66%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 36% 30%, #3a0b17 0%, #13060b 38%, #030203 72%);
+  box-shadow:
+    0 0 25px rgba(255,23,68,.32),
+    0 0 75px rgba(255,0,45,.15),
+    inset -12px -8px 30px #000;
+  position: relative;
+}
+
+.eclipse::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,52,88,.65);
+  box-shadow: 0 0 18px rgba(255,23,68,.45);
+}
+
+.eclipse::after {
+  content: "";
+  position: absolute;
+  inset: -22%;
+  border: 1px solid rgba(255,23,68,.15);
+  border-radius: 50%;
+  animation: rotate 24s linear infinite;
+}
+
+.orbit {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(255,23,68,.18);
+  border-radius: 50%;
+  transform: rotate(-28deg) scaleY(.34);
+}
+
+.orbit.two {
+  transform: rotate(58deg) scaleY(.43);
+  border-color: rgba(255,255,255,.10);
+}
+
+.orbit-dot {
+  position: absolute;
+  top: 11%;
+  left: 24%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 15px var(--red);
+}
+
+@keyframes rotate {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+.hero h1 {
+  direction: ltr;
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(27px, 6vw, 65px);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: clamp(2px, .7vw, 8px);
+  text-shadow: 0 0 28px rgba(255,23,68,.22);
+  animation: fadeUp 1.3s .15s both;
+}
+
+.hero h1 span {
+  color: var(--red);
+}
+
+.tagline {
+  margin-top: 20px;
+  color: #c2b3b9;
+  font-size: clamp(13px, 2vw, 17px);
+  letter-spacing: 1px;
+  animation: fadeUp 1.3s .3s both;
+}
+
+.creator {
+  direction: ltr;
+  margin-top: 22px;
+  color: #81747a;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 10px;
+  letter-spacing: 2px;
+  animation: fadeUp 1.3s .45s both;
+}
+
+.creator strong {
+  color: #e4c1c9;
+  font-weight: 600;
+}
+
+.enter-btn {
+  margin-top: 36px;
+  padding: 14px 29px;
+  border: 1px solid rgba(255,23,68,.7);
+  background: rgba(255,23,68,.06);
+  color: white;
+  letter-spacing: 2px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: .3s;
+  animation: fadeUp 1.3s .6s both;
+}
+
+.enter-btn:hover {
+  background: var(--red);
+  box-shadow: 0 0 32px rgba(255,23,68,.35);
+  transform: translateY(-3px);
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  color: #75666c;
+  font-size: 9px;
+  letter-spacing: 3px;
+  direction: ltr;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 30px;
+  background: linear-gradient(var(--red), transparent);
+  animation: scrollPulse 1.8s infinite;
+}
+
+@keyframes scrollPulse {
+  50% { opacity: .25; transform: scaleY(.65); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.experience {
+  min-height: 100svh;
+  padding: 95px 20px 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.experience-inner {
+  width: min(100%, 780px);
+  margin: auto;
+}
+
+.section-label {
+  text-align: center;
+  color: var(--red);
+  font-size: 10px;
+  letter-spacing: 5px;
+  direction: ltr;
+  margin-bottom: 13px;
+}
+
+.section-title {
+  text-align: center;
+  font-size: clamp(25px, 5vw, 43px);
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.section-subtitle {
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 35px;
+}
+
+.lyrics-card {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(25px, 6vw, 55px) clamp(17px, 5vw, 48px);
+  border: 1px solid rgba(255,23,68,.24);
+  background:
+    linear-gradient(140deg, rgba(255,23,68,.055), transparent 45%),
+    rgba(13,9,12,.91);
+  box-shadow: 0 25px 90px rgba(0,0,0,.4), 0 0 50px rgba(255,0,50,.035);
+  text-align: center;
+}
+
+.lyrics-card::before,
+.lyrics-card::after {
+  content: "";
+  position: absolute;
+  width: 65px;
+  height: 65px;
+  pointer-events: none;
+}
+
+.lyrics-card::before {
+  top: 0;
+  right: 0;
+  border-top: 1px solid var(--red);
+  border-right: 1px solid var(--red);
+}
+
+.lyrics-card::after {
+  bottom: 0;
+  left: 0;
+  border-bottom: 1px solid var(--red);
+  border-left: 1px solid var(--red);
+}
+
+.lyric-symbol {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 28px;
+  color: var(--red);
+  opacity: .8;
+  margin-bottom: 20px;
+}
+
+.lyric {
+  min-height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(23px, 5.4vw, 39px);
+  font-weight: 800;
+  line-height: 1.8;
+  color: #fff4f6;
+  text-shadow: 0 0 24px rgba(255,23,68,.12);
+  cursor: pointer;
+  user-select: none;
+  transition: color .25s;
+}
+
+.lyric:hover {
+  color: white;
+  text-shadow: 0 0 25px rgba(255,23,68,.35);
+}
+
+.lyric.changing {
+  animation: lyricIn .38s ease both;
+}
+
+@keyframes lyricIn {
+  0% { opacity: 0; transform: translateY(12px); filter: blur(5px); }
+  100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+.lyric-hint {
+  margin-top: 14px;
+  color: #81747a;
+  font-size: 11px;
+}
+
+.lyric-hint span {
+  color: var(--red);
+}
+
+.lyric-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 32px;
+  color: #a998a0;
+  font-size: 10px;
+  letter-spacing: 2px;
+  direction: ltr;
+}
+
+.counter {
+  color: #eee0e4;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.progress-track {
+  height: 2px;
+  flex: 1;
+  background: #302127;
+  overflow: hidden;
+}
+
+.progress-fill {
+  width: 0%;
+  height: 100%;
+  background: var(--red);
+  box-shadow: 0 0 12px var(--red);
+  transition: width .35s ease;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+
+.control-btn {
+  min-width: 115px;
+  padding: 12px 17px;
+  color: #f7e9ed;
+  background: #110b0f;
+  border: 1px solid #39202a;
+  font-size: 11px;
+  cursor: pointer;
+  transition: .25s;
+}
+
+.control-btn:hover {
+  border-color: var(--red);
+  background: rgba(255,23,68,.09);
+  transform: translateY(-2px);
+}
+
+.control-btn.primary {
+  color: white;
+  background: var(--red2);
+  border-color: var(--red);
+  min-width: 135px;
+}
+
+.control-btn.primary:hover {
+  background: var(--red);
+  box-shadow: 0 0 25px rgba(255,23,68,.22);
+}
+
+.audio-panel {
+  margin-top: 42px;
+  padding: 22px;
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(10,7,9,.7);
+}
+
+.audio-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.audio-title {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.audio-state {
+  color: #a89aa0;
+  font-size: 10px;
+}
+
+.audio-state.playing {
+  color: #ff6684;
+}
+
+audio {
+  display: block;
+  width: 100%;
+  height: 42px;
+  accent-color: var(--red);
+}
+
+.audio-note {
+  margin-top: 12px;
+  color: #81747a;
+  font-size: 11px;
+  line-height: 1.9;
+}
+
+.footer {
+  padding: 25px 15px 35px;
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,.05);
+  color: #72656b;
+  font-size: 10px;
+  letter-spacing: 2px;
+  direction: ltr;
+}
+
+.footer span {
+  color: var(--red);
+}
+
+@media (max-width: 600px) {
+  .topbar { padding: 19px 18px; }
+  .brand { font-size: 12px; letter-spacing: 2px; }
+  .status { font-size: 9px; letter-spacing: 1px; }
+  .hero { padding-top: 100px; }
+  .eclipse-wrap { width: 190px; }
+  .experience { padding: 75px 14px 50px; }
+  .lyric { min-height: 130px; }
+  .controls { gap: 8px; }
+  .control-btn { min-width: 95px; padding: 11px 12px; }
+  .control-btn.primary { min-width: 115px; }
+  .audio-panel { padding: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+</head>
+
+<body>
+<canvas id="particles"></canvas>
+<div class="ambient"></div>
+<div class="scanlines"></div>
+<div class="vignette"></div>
+
+<main>
+  <header class="topbar">
+    <div class="brand">KHALEED<span>.</span></div>
+    <div class="status">
+      <span class="status-dot"></span>
+      <span>EMOTIONAL EXPERIENCE</span>
+    </div>
+  </header>
+
+  <section class="hero" id="home">
+    <div class="eyebrow">A PERSONAL EXPERIENCE</div>
+
+    <div class="eclipse-wrap" aria-hidden="true">
+      <div class="orbit"></div>
+      <div class="orbit two"></div>
+      <div class="orbit-dot"></div>
+      <div class="eclipse"></div>
+    </div>
+
+    <h1>A WORLD OF <span>FEELINGS</span></h1>
+    <p class="tagline">Some feelings deserve their own world.</p>
+    <p class="creator">Created by <strong>Khaleed Naem</strong></p>
+
+    <button class="enter-btn" id="enterBtn">
+      ENTER THE EXPERIENCE &nbsp; ↘
+    </button>
+
+    <div class="scroll-hint">
+      <span>SCROLL TO EXPLORE</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <section class="experience" id="experience">
+    <div class="experience-inner">
+      <div class="section-label">THE LYRICS</div>
+      <h2 class="section-title">كلام من القلب</h2>
+      <p class="section-subtitle">كل ضغطة بتفتح سطر جديد من الحكاية</p>
+
+      <div class="lyrics-card" id="lyricsCard">
+        <div class="lyric-symbol">“</div>
+
+        <div class="lyric" id="lyric" role="button"
+             tabindex="0" aria-label="اضغط لعرض السطر التالي">
+          والي مبيعرفش قيمتنا
+        </div>
+
+        <p class="lyric-hint">
+          <span>●</span> دوس على الكلام عشان تغيّر السطر
+        </p>
+
+        <div class="lyric-meta">
+          <span>LYRIC PROGRESSION</span>
+          <div class="progress-track">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <span class="counter" id="counter">01 / 19</span>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button class="control-btn" id="prevBtn">← السابق</button>
+        <button class="control-btn primary" id="nextBtn">السطر التالي →</button>
+        <button class="control-btn" id="restartBtn">↻ من الأول</button>
+      </div>
+
+      <div class="audio-panel">
+        <div class="audio-heading">
+          <span class="audio-title">♫ الموسيقى والصوت</span>
+          <span class="audio-state" id="audioState">جاهز للتشغيل</span>
+        </div>
+
+        <audio id="audio" controls preload="metadata">
+          <source src="./WhatsApp%20Audio%202026-10-21%20at%208.50.23%20AM.mp3" type="audio/mpeg">
+          <source src="./WhatsApp%20Audio%202026-10-21%20at%208.50.23%20AM.m4a" type="audio/mp4">
+          <source src="./WhatsApp%20Audio%202026-10-21%20at%208.50.23%20AM.ogg" type="audio/ogg">
+          المتصفح لا يدعم تشغيل الصوت.
+        </audio>
+
+        <p class="audio-note" id="audioNote">
+          لو الصوت مش شغال، اتأكد إن ملف الأغنية موجود جنب ملف HTML
+          وإن اسم الملف والامتداد مطابقين بالظبط.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    CREATED WITH <span>♥</span> BY KHALEED NAEM
+  </footer>
+</main>
+
+<script>
+/* =========================
+   LYRICS
+========================= */
+
+const lyrics = [
+  "والي مبيعرفش قيمتنا",
+  "تبقى سكته غير سكتنا",
+  "خد معاه الشر وراح",
+  "خد معاه الشر وراح",
+  "مش هنتعب روحنا عشانه",
+  "ألف مين يتمنى مكانه",
+  "هو كده ريّح وارتاح",
+  "هو كده ريّح وارتاح",
+  "والي مبيعرفش قيمتنا",
+  "تبقى سكته غير سكتنا",
+  "خد معاه الشر وراح",
+  "خد معاه الشر وراح",
+  "من إمتى بيفرق لينا مين راح",
+  "ومين استنى",
+  "اللي يحيّنا يكسب ودّنا ويضحي عشانا",
+  "مبسوط ع كده 100 فل ورضا",
+  "مش عاجبه يسيبنا",
+  "هو اللي اختار بإيديه النار",
+  "وخرج من الجنة"
+];
+
+const $ = id => document.getElementById(id);
+
+let current = 0;
+
+function showLyric(index) {
+  current = (index + lyrics.length) % lyrics.length;
+
+  const lyricElement = $("lyric");
+  lyricElement.classList.remove("changing");
+
+  // Restart the animation on every click.
+  void lyricElement.offsetWidth;
+
+  lyricElement.textContent = lyrics[current];
+  lyricElement.classList.add("changing");
+
+  $("counter").textContent =
+    String(current + 1).padStart(2, "0") +
+    " / " +
+    String(lyrics.length).padStart(2, "0");
+
+  $("progressFill").style.width =
+    ((current + 1) / lyrics.length * 100) + "%";
+}
+
+function nextLyric() {
+  showLyric(current + 1);
+}
+
+function prevLyric() {
+  showLyric(current - 1);
+}
+
+function restartLyrics() {
+  showLyric(0);
+}
+
+$("nextBtn").addEventListener("click", nextLyric);
+$("prevBtn").addEventListener("click", prevLyric);
+$("restartBtn").addEventListener("click", restartLyrics);
+
+/* Click the words to advance to the next line. */
+$("lyric").addEventListener("click", nextLyric);
+
+/* Keyboard support: Enter or Space also changes the line. */
+$("lyric").addEventListener("keydown", event => {
+  if (event.key === "Enter" || event.key === " ") {
+    event.preventDefault();
+    nextLyric();
+  }
+});
+
+/* Clicking the lyric card's empty space advances too.
+   Buttons and the audio player are excluded to avoid double clicks. */
+$("lyricsCard").addEventListener("click", event => {
+  if (
+    event.target.closest("button") ||
+    event.target.closest("audio") ||
+    event.target.closest(".lyric") ||
+    event.target.closest(".progress-track")
+  ) {
+    return;
+  }
+
+  nextLyric();
+});
+
+/* Enter button smoothly scrolls to the lyrics. */
+$("enterBtn").addEventListener("click", () => {
+  $("experience").scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+});
+
+/* =========================
+   AUDIO STATUS
+========================= */
+
+const audio = $("audio");
+const audioState = $("audioState");
+const audioNote = $("audioNote");
+
+audio.addEventListener("play", () => {
+  audioState.textContent = "الصوت شغال ♪";
+  audioState.classList.add("playing");
+});
+
+audio.addEventListener("pause", () => {
+  audioState.textContent = "الصوت متوقف مؤقتًا";
+  audioState.classList.remove("playing");
+});
+
+audio.addEventListener("ended", () => {
+  audioState.textContent = "الأغنية انتهت";
+  audioState.classList.remove("playing");
+});
+
+audio.addEventListener("error", () => {
+  audioState.textContent = "ملف الصوت مش موجود";
+  audioNote.textContent =
+    "راجع اسم ملف الأغنية وامتداده، وارفعه في نفس مكان ملف HTML على GitHub.";
+});
+
+/* =========================
+   ANIMATED PARTICLES
+========================= */
+
+const canvas = $("particles");
+const ctx = canvas.getContext("2d");
+
+let width = 0;
+let height = 0;
+let particles = [];
+let animationFrame = 0;
+
+function resizeCanvas() {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+  width = window.innerWidth;
+  height = window.innerHeight;
+
+  canvas.width = Math.floor(width * dpr);
+  canvas.height = Math.floor(height * dpr);
+
+  canvas.style.width = width + "px";
+  canvas.style.height = height + "px";
+
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  const count = Math.min(
+    100,
+    Math.max(35, Math.floor(width / 12))
+  );
+
+  particles = Array.from({ length: count }, () => ({
+    x: Math.random() * width,
+    y: Math.random() * height,
+    radius: Math.random() * 1.6 + 0.3,
+    speedY: Math.random() * 0.35 + 0.08,
+    speedX: (Math.random() - 0.5) * 0.25,
+    alpha: Math.random() * 0.55 + 0.12,
+    pulse: Math.random() * 0.02 + 0.005,
+    phase: Math.random() * Math.PI * 2
+  }));
+}
+
+function drawParticles() {
+  ctx.clearRect(0, 0, width, height);
+
+  for (const p of particles) {
+    p.y -= p.speedY;
+    p.x += p.speedX;
+    p.phase += p.pulse;
+
+    if (p.y < -5) {
+      p.y = height + 5;
+      p.x = Math.random() * width;
+    }
+
+    if (p.x < -5) p.x = width + 5;
+    if (p.x > width + 5) p.x = -5;
+
+    const alpha = p.alpha * (
+      0.7 + Math.sin(p.phase) * 0.3
+    );
+
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255, 45, 78, ${alpha})`;
+    ctx.fill();
+
+    // Subtle glow around selected particles.
+    if (p.radius > 1.25) {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius * 4, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 20, 65, ${alpha * 0.07})`;
+      ctx.fill();
+    }
+  }
+
+  animationFrame = requestAnimationFrame(drawParticles);
+}
+
+window.addEventListener("resize", resizeCanvas);
+
+resizeCanvas();
+drawParticles();
+
+/* Initialize the first lyric and its progress. */
+showLyric(0);
+</script>
+</body>
+</html>
